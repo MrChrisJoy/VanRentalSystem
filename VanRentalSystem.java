@@ -1,6 +1,7 @@
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -14,8 +15,10 @@ public class VanRentalSystem {
 	public static void Request(String id, 
 			String f_h, String f_m, String f_d,
 			String t_h, String t_m, String t_d,
-			String t1_num, String t1_type) {
-		System.out.println("Request: " + id + f_h + f_m + f_d+ t_h + t_m + t_d + t1_num + t1_type);
+			String t1_num, String t1_type,
+			String t2_num, String t2_type
+			) {
+		System.out.println("Request: " + id + f_h + f_m + f_d+ t_h + t_m + t_d + t1_num + t1_type + t2_num + t2_type);
 		
 		
 	}
@@ -23,8 +26,10 @@ public class VanRentalSystem {
 	public static void Change(String id, 
 			String f_h, String f_m, String f_d,
 			String t_h, String t_m, String t_d,
-			String t1_num, String t1_type) {
-		System.out.println("Change: " + id + f_h + f_m + f_d+ t_h + t_m + t_d + t1_num + t1_type);
+			String t1_num, String t1_type,
+			String t2_num, String t2_type
+			) {
+		System.out.println("Change: " + id + f_h + f_m + f_d+ t_h + t_m + t_d + t1_num + t1_type + t2_num + t2_type);
 		
 		
 	}
@@ -45,7 +50,14 @@ public class VanRentalSystem {
 			while(sc.hasNext()) {
 				String nextToken = sc.nextLine();
 				String query[] = parseCMD(nextToken);
+				// create a duplicate array of query, in order to dynamically add elements
+				List<String> query_ = new ArrayList<String>(Arrays.asList(query));
+				
 				if (query.length > 0) {
+					if (query.length == 10) {
+						query_.add("null");
+						query_.add("null");
+					}
 					switch (query[0]) {
 						case "Location":
 							Location(query[1], query[2], query[3]);
@@ -53,12 +65,14 @@ public class VanRentalSystem {
 						case "Request":
 							Request(query[1], query[2], query[3], 
 									query[4], query[5], query[6], 
-									query[7], query[8], query[9]);
+									query[7], query[8], query[9],
+									query_.get(10), query_.get(11));
 							break;
 						case "Change":
 							Change(query[1], query[2], query[3], 
 									query[4], query[5], query[6], 
-									query[7], query[8], query[9]);
+									query[7], query[8], query[9],
+									query_.get(10), query_.get(11));
 							break;
 						case "Cancel":
 							Cancel(query[1]);
@@ -100,6 +114,4 @@ public class VanRentalSystem {
 		
 		return postArray;
 	}
-
-
 }
